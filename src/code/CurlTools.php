@@ -6,6 +6,7 @@ namespace code;
  * 跟curl相关的工具类
  * Class CurlsTools
  * 
+ * 方法：
  * 1、httpGet - get请求之发送数组
  * 2、httpPost - post请求之发送数组
  * 3、curlGetContents - 使用curl获取远程数据

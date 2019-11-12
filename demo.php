@@ -2,12 +2,7 @@
 
 require "./vendor/autoload.php";
 
-use code\ZipTools;
-
-$file = new ZipTools();
-
-$path = "./upload";
-$name = "./upload/test.zip";
-
-$file->unZip($name, $path); // 调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
+use code\HelloTools;
+$file = new HelloTools();
+$file->greet(); // 输出 “Hello Tools”
 unset($file);

@@ -3,8 +3,8 @@
 namespace code;
 
 /**
-* 输出欢迎信息（用于测试）
-*/
+ * 输出欢迎信息（用于测试）
+ */
 class HelloTools
 {
 	

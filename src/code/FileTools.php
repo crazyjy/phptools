@@ -5,7 +5,8 @@ namespace code;
 /**
  * 文件工具类
  * Class FileTools
- * 
+ *
+ * 方法：
  * 1、 dirReplace - 替换相应的字符
  * 2、 isEmpty - 判断目录是否为空
  * 3、 rename - 文件重命名
