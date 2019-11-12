@@ -1,12 +1,46 @@
-<?php
+<?php 
 
 namespace code;
 
 /**
  * 文件工具类
  * Class FileTools
+ * 
+ * 1、 dirReplace - 替换相应的字符
+ * 2、 isEmpty - 判断目录是否为空
+ * 3、 rename - 文件重命名
+ * 4、 checkPath - 文件保存路径处理
+ * 5、 downFile - 文件下载功能
+ * 6、 isWriteAble - 判断 文件/目录 是否可写（取代系统自带的 is_writeable 函数）
+ * 7、 saveArrayToFiles - 保存数组变量到php文件
+ * 8、 paramLabel - 转化格式化的字符串为数组
+ * 9、 getFileExtension - 获取文件扩展名
+ * 10、getDirTree - 获取目录列表
+ * 11、dirPath - 转化 \ 为 /
+ * 12、dirCreate - 创建目录
+ * 13、dirCopy - 拷贝目录及下面所有文件
+ * 14、getBasename - 获取完整文件名
+ * 15、dirList - 列出目录下所有文件
+ * 16、dirDelete - 删除目录及目录下面的所有文件
+ * 17、close - 关闭文件操作
+ * 18、createBase64 - Base64字符串生成图片文件,自动解析格式
+ * 19、byteFormat - 文件字节转具体大小 array("B", "KB", "MB", "GB", "TB", "PB","EB","ZB","YB")， 默认转成M
+ * 20、unlinkFile - 删除文件
+ * 21、handleFile - 文件操作(复制/移动)
+ * 22、handleDir - 文件夹操作(复制/移动)
+ * 23、listInfo - 返回指定文件和目录的信息
+ * 24、openInfo - 返回关于打开文件的信息
+ * 25、changeFile - 改变文件和目录的相关属性
+ * 26、getUploaFileInfo - 取得上传文件信息
+ * 27、setFileName - 设置文件命名规则
+ * 28、createFile - 创建指定路径下的指定文件
+ * 29、readFile - 读取文件操作
+ * 30、allowUploadSize - 确定服务器的最大上传限制（字节数）
+ * 31、writeLogFile - 写文件日志
+ * 32、readLogFile - 读取文件内容
+ * 33、getDirFileList - 获取文件名称列表
+ * 34、checkDirEmpty - 判断目录是否存在
  */
-
 class FileTools{
 
     /**
@@ -26,16 +60,20 @@ class FileTools{
      */
     public function isEmpty($dir)
     {
-        $handle = opendir($dir);
-        while (($file = readdir($handle)) !== false)
-        {
-            if ($file != '.' && $file != '..')
+     
+        if (is_dir($dir)) {
+            $handle = opendir($dir);
+            while (($file = readdir($handle)) !== false)
             {
-                closedir($handle);
-                return true;
+                if ($file != '.' && $file != '..')
+                {
+                    closedir($handle);
+                    return true;
+                }
             }
+            closedir($handle);
         }
-        closedir($handle);
+
         return false;
     }
 
@@ -46,7 +84,7 @@ class FileTools{
      * @param $new_name
      * @return bool
      */
-    public function rename($old_name,$new_name)
+    public function rename($old_name, $new_name)
     {
         if(($new_name!=$old_name) && is_writable($old_name))
         {
@@ -96,8 +134,6 @@ class FileTools{
 
     }
 
-
-
     /**
      * @desc 判断 文件/目录 是否可写（取代系统自带的 is_writeable 函数）
      * @param $file
@@ -126,20 +162,18 @@ class FileTools{
 
     }
 
-
     /**
      * @desc 保存数组变量到php文件
      * @param string $path 保存路径
      * @param mixed $value 要保存的变量
      * @return boolean 保存成功返回true,否则false
      */
-    function saveArrayToFiles($path,$value){
+    function saveArrayToFiles($path, $value){
 
         $ret = file_put_contents($path, "<?php\treturn " . var_export($value, true) . ";?>");
         return $ret;
 
     }
-
 
     /**
      * @desc 转化格式化的字符串为数组
@@ -166,7 +200,6 @@ class FileTools{
         return $param;
 
     }
-
 
     /**
      * @desc 获取文件扩展名
@@ -201,13 +234,10 @@ class FileTools{
         return $dirs;
 
     }
-    //    echo '<pre>';
-    //    var_dump(getDirTree('/home/wwwroot/'));
 
-    
     /**
      * @desc 转化 \ 为 /
-     * @param	string	$path	路径
+     * @param	string	$path 路径
      * @return	string	路径
      */
     public function dirPath($path) {
@@ -217,6 +247,7 @@ class FileTools{
         return $path;
         
     }
+
     /**
      * @desc 创建目录
      * @param	string	$path	路径
@@ -243,6 +274,7 @@ class FileTools{
         return is_dir($path);
         
     }
+
     /**
      * @desc 拷贝目录及下面所有文件
      * @param	string	$from_dir	原路径
@@ -328,7 +360,6 @@ class FileTools{
 
     }
 
-
     /**
      * @desc 关闭文件操作
      * @param string $path
@@ -339,7 +370,6 @@ class FileTools{
         return fclose($path);
     }
 
-    
     /**
      * @desc Base64字符串生成图片文件,自动解析格式
      * @param $base64
@@ -375,8 +405,6 @@ class FileTools{
         
     }
 
-
-
     /**
      * @desc 文件字节转具体大小 array("B", "KB", "MB", "GB", "TB", "PB","EB","ZB","YB")， 默认转成M
      * @param $size 文件字节
@@ -394,7 +422,6 @@ class FileTools{
         return round($size,$dec)." ".$units[$pos];
     }
 
-
     /**
      * @desc 删除文件
      * @param string $path
@@ -409,7 +436,6 @@ class FileTools{
         }
     }
     
-
     /**
      * @desc 文件操作(复制/移动)
      * @param string $old_path 指定要操作文件路径(需要含有文件名和后缀名)
@@ -418,7 +444,7 @@ class FileTools{
      * @param boolean $overWrite 是否覆盖已存在文件
      * @return boolean
      */
-    public function handleFile($old_path,$new_path,$type='copy', $overWrite=FALSE)
+    public function handleFile($old_path, $new_path, $type='copy', $overWrite=FALSE)
     {
         
         $old_path = $this->dirReplace($old_path);
@@ -488,8 +514,6 @@ class FileTools{
 
     }
 
-
-
     /**
      * @desc 返回指定文件和目录的信息
      * @param string $file
@@ -499,26 +523,26 @@ class FileTools{
     {
         $dir = array();
 
-        $dir['filename']   = basename($file);//返回路径中的文件名部分。
-        $dir['pathname']   = realpath($file);//返回绝对路径名。
-        $dir['owner']      = fileowner($file);//文件的 user ID （所有者）。
-        $dir['perms']      = fileperms($file);//返回文件的 inode 编号。
-        $dir['inode']      = fileinode($file);//返回文件的 inode 编号。
-        $dir['group']      = filegroup($file);//返回文件的组 ID。
-        $dir['path']       = dirname($file);//返回路径中的目录名称部分。
-        $dir['atime']      = fileatime($file);//返回文件的上次访问时间。
-        $dir['ctime']      = filectime($file);//返回文件的上次改变时间。
-        $dir['perms']      = fileperms($file);//返回文件的权限。
-        $dir['size']       = filesize($file);//返回文件大小。
-        $dir['type']       = filetype($file);//返回文件类型。
-        $dir['ext']        = is_file($file) ? pathinfo($file,PATHINFO_EXTENSION) : '';//返回文件后缀名
-        $dir['mtime']      = filemtime($file);//返回文件的上次修改时间。
-        $dir['isDir']      = is_dir($file);//判断指定的文件名是否是一个目录。
-        $dir['isFile']     = is_file($file);//判断指定文件是否为常规的文件。
-        $dir['isLink']     = is_link($file);//判断指定的文件是否是连接。
-        $dir['isReadable'] = is_readable($file);//判断文件是否可读。
-        $dir['isWritable'] = is_writable($file);//判断文件是否可写。
-        $dir['isUpload']   = is_uploaded_file($file);//判断文件是否是通过 HTTP POST 上传的。
+        $dir['filename']   = basename($file);           // 返回路径中的文件名部分。
+        $dir['pathname']   = realpath($file);           // 返回绝对路径名。
+        $dir['owner']      = fileowner($file);          // 文件的 user ID （所有者）。
+        $dir['perms']      = fileperms($file);          // 返回文件的 inode 编号。
+        $dir['inode']      = fileinode($file);          // 返回文件的 inode 编号。
+        $dir['group']      = filegroup($file);          // 返回文件的组 ID。
+        $dir['path']       = dirname($file);            // 返回路径中的目录名称部分。
+        $dir['atime']      = fileatime($file);          // 返回文件的上次访问时间。
+        $dir['ctime']      = filectime($file);          // 返回文件的上次改变时间。
+        $dir['perms']      = fileperms($file);          // 返回文件的权限。
+        $dir['size']       = filesize($file);           // 返回文件大小。
+        $dir['type']       = filetype($file);           // 返回文件类型。
+        $dir['ext']        = is_file($file) ? pathinfo($file,PATHINFO_EXTENSION) : '';          // 返回文件后缀名
+        $dir['mtime']      = filemtime($file);          // 返回文件的上次修改时间。
+        $dir['isDir']      = is_dir($file);             // 判断指定的文件名是否是一个目录。
+        $dir['isFile']     = is_file($file);            // 判断指定文件是否为常规的文件。
+        $dir['isLink']     = is_link($file);            // 判断指定的文件是否是连接。
+        $dir['isReadable'] = is_readable($file);        // 判断文件是否可读。
+        $dir['isWritable'] = is_writable($file);        // 判断文件是否可写。
+        $dir['isUpload']   = is_uploaded_file($file);   // 判断文件是否是通过 HTTP POST 上传的。
 
         return $dir;
 
@@ -563,16 +587,14 @@ class FileTools{
     {
         switch ($type)
         {
-            case 'group' : $is_ok = chgrp($file,$ch_info);//改变文件组。
+            case 'group' : $is_ok = chgrp($file,$ch_info);          // 改变文件组。
                 break;
-            case 'mode' : $is_ok = chmod($file,$ch_info);//改变文件模式。
+            case 'mode' : $is_ok = chmod($file,$ch_info);           // 改变文件模式。
                 break;
-            case 'ower' : $is_ok = chown($file,$ch_info);//改变文件所有者。
+            case 'ower' : $is_ok = chown($file,$ch_info);           // 改变文件所有者。
                 break;
         }
     }
-
-
 
     /**
      * @desc: 取得上传文件信息
@@ -591,7 +613,6 @@ class FileTools{
         $info['ext']   = $this->getFileExtension($file_info['name']);//取得上传文件后缀
         return $info;
     }
-
 
     /**
      * @desc: 设置文件命名规则
@@ -612,7 +633,6 @@ class FileTools{
         }
         return $new_file;
     }
-
 
     /**
      * @desc: 创建指定路径下的指定文件
@@ -636,7 +656,6 @@ class FileTools{
         return touch($path,$time,$atime);
     }
 
-
     /**
      * @desc: 读取文件操作
      * @param string $file
@@ -653,9 +672,71 @@ class FileTools{
      */
     public function allowUploadSize()
     {
-        $val = trim(ini_get('upload_max_filesize'));
-        return $val;
+        return trim(ini_get('upload_max_filesize'));
     }
 
+    /**
+     * 写文件日志
+     * 说明：写入$road/log文件，以每天分割 例如 filename2011-11-1
+     * @param $file_path 路径名称（路径后会自动添加当日时间）
+     * @param $log （日志内容）
+     * @return bool
+     */
+    public function writeLogFile($file_path, $log) {
+        if ($file_path && $log) {
+            $info = fopen($file_path . date('Y-m-d'), "a"); // 文件不存在则新增
+            fwrite($info,date('Y-m-d H:i:s') . ": " . $log."\n");
+            fclose($info);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 读取文件内容
+     * 说明：以数组形式返回（回车截取）
+     * @param $file_path
+     * @return bool / String
+     */
+    public function readLogFile($file_path) {
+        // 检查文件是否存在
+        if(file_exists($file_path)){
+            $file_arr = file($file_path);
+            return $file_arr;
+        }
+        return false;
+    }
     
+    /**
+     * 获取文件名称列表
+     * 说明：名称中不包含文件路径
+     * [fileNameList description]
+     * @param  [type] $file_path [description]
+     * @return [type]            [description]
+     */
+    public function getDirFileList($file_path)
+    {
+        $name = [];
+        if(is_dir($file_path)) {
+            $handler = opendir($file_path);
+            while( ($filename = readdir($handler)) !== false )
+            {
+                // 略过linux目录的名字为'.'和‘..'的文件
+                if($filename != "." && $filename != "..")
+                {
+                    $name[] = $filename;
+                }
+            }
+            closedir($handler);
+        }
+        return $name;
+    }
+
+    /**
+     * 判断目录是否存在
+     */
+    public function checkDirEmpty($path) {
+        return is_dir($path);
+    }
 }

@@ -3,7 +3,7 @@
 namespace code;
 
 /**
-* 
+* 输出欢迎信息（用于测试）
 */
 class HelloTools
 {
@@ -15,6 +15,6 @@ class HelloTools
 
 	public static function greet()
 	{
-		echo "Hello!", PHP_EOL;
+		echo "Hello Tools!", PHP_EOL;
 	}
 }

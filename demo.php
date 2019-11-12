@@ -2,13 +2,12 @@
 
 require "./vendor/autoload.php";
 
-use code\HelloTools;
-use code\FileTools;
+use code\ZipTools;
 
-HelloTools::greet();
+$file = new ZipTools();
 
-$file = new FileTools();
+$path = "./upload";
+$name = "./upload/test.zip";
 
-echo $file->isEmpty('/var')."\n";
-
-?>
+$file->unZip($name, $path); // 调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
+unset($file);
