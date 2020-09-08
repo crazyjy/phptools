@@ -12,7 +12,7 @@ namespace code;
  * 3、 httpPost2 - 普通post方法（基于 curl）
  */
 
-class networkTools() {
+class NetworkTools {
 
     /**
      * POST方法 支持Authorization（基于 curl）

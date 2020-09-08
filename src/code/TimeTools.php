@@ -10,7 +10,7 @@ namespace code;
  * 1、mSubStr - 字符串截取，支持中文和其他编码
  */
 
-class TimeTools{
+class TimeTools {
 
     /**
      * 计算前后相差天数
